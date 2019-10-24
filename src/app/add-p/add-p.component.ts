@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm, Validators } from '@angular/forms';
-import { User } from './user';
-import { FormGroup, FormControl, FormBuilder, Validator } from '@angular/forms';
+import { Component, OnInit, Inject } from '@angular/core';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-add-p',
+  templateUrl: './add-p.component.html',
+  styleUrls: ['./add-p.component.css']
 })
-export class AppComponent implements OnInit {
+export class AddPComponent implements OnInit {
+  
   arr = new Array()
   ayush: any = {};
-  topics = ['Angular', 'React', 'Vue'];
-  userModel = new User("Enter Product Name", 100000, "default");
+  
   userfrm: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    public dialogRef: MatDialogRef<AddPComponent>,
+    @Inject(MAT_DIALOG_DATA) public data,private fb: FormBuilder) { }
+
   ngOnInit() {
     let mytime = localStorage.getItem('mytime');
     console.log(mytime);
@@ -24,6 +26,14 @@ export class AppComponent implements OnInit {
       prc: ''
     })
   }
+  
+  
+
+  onNoClick(): void {
+    this.dialogRef.close();
+    
+  }
+  
   onsubmit(userfrm) {
 
     this.ayush.fname = userfrm.value.pnm;
@@ -47,8 +57,5 @@ export class AppComponent implements OnInit {
     // console.log(JSON.stringify(this.arr))
     localStorage.setItem("prdcts", JSON.stringify(products))
   }
+
 }
-
-
-
-
